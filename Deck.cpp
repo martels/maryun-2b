@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <string>
+#include <algorithm>
 #include <vector>
 #include <stdlib.h>
 
@@ -31,6 +32,11 @@ Deck::Deck()
        }
     }
 }
+Deck::Deck(int place)
+{
+    head = NULL;
+    length = 0;
+}
 
 
 //destructor
@@ -42,6 +48,7 @@ Deck::Deck()
     prev = this->head;
     while(prev != NULL)
     {
+        delete prev->data;
         delete prev->next;
         prev = cursor;
         cursor = cursor->next;
@@ -117,12 +124,12 @@ card* Deck::deal()
     return cursor->data;
 }
 
-void Deck::replace(card& card)
+void Deck::replace(card *card)
 {
     Node* cursor;
     Node* temp;
     temp->next = NULL;
-    temp->data = &card;
+    temp->data = card;
     cursor = this->head;
     int i = 1;
     while(cursor->next != NULL)
@@ -191,22 +198,29 @@ int points(const card& card, int& points)
     return points;
 }
 
-void playflip()
+card Deck::flip(vector<card> prev)
+
 {
-    Deck deck;
-    int i = 0;
-    int tally = 0;
+    card* temp;
+    int x;
+    cout << "Which number card do you want to flip: \n";
+    cin >> x;
 
-    card temp;
+    Node* head = this->head;
+    int i = 1;
+    while (head) {
+        card* card = head->data;
+        if (i == x){
 
-    temp = deck.flip();
-    points(temp, tally);
-
-    while(i != 3)
-    {
-        deck.shuffle;
+            if((*card).getValue() == )
+            temp = card;
+            cout << "Card " << i << ": " << (*card).getValue() << " of " << (*card).getSuit() << endl;
+        }
+        head = head->next;
         i++;
     }
+    return (*temp);
 
 }
+
 
