@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <stdlib.h>
 
 
 using namespace std;
@@ -18,7 +19,7 @@ using namespace std;
 Deck::Deck()
 {
     head = NULL;
-    vector<string> suits = { "Clubs" , "Diamonds", "Hearts", "Spades"};
+    vector<string> suits = { "Clubs", "Diamonds", "Hearts", "Spades"};
     vector<string> values = { "K", "Q", "J", "10", "9", "8", "7", "6", "5", "4", "3", "2", "A" };
         
     for (int i = 0; i < 4; i++)//4 suits
@@ -31,10 +32,21 @@ Deck::Deck()
     }
 }
 
+
 //destructor
  Deck::~Deck()
 {
-     cout << "Deleted Deck" << endl;
+    Node* cursor;
+    Node* prev;
+    cursor = this->head->next;
+    prev = this->head;
+    while(prev != NULL)
+    {
+        delete prev->next;
+        prev = cursor;
+        cursor = cursor->next;
+    }
+    cout << "Deleted Deck" << endl;
 }
 
 //puts each card into the linked list Deck
@@ -65,8 +77,8 @@ void Deck::shuffle()
 
     for(int i = 0; i < 1000; i++)
     {
-        rnd1 = rand()%52;   //generate two random numbers
-        rnd2 = rand()%52;   
+        rnd1 = rand() % 52;   //generate two random numbers
+        rnd2 = rand() % 52;   
         ex1 = temp.at(rnd1); //take the cards at the numbers
         ex2 = temp.at(rnd2);
         
@@ -96,11 +108,43 @@ void Deck::print()
      }
  }
 
+card* Deck::deal()
+{
+    Node* cursor;
+    cursor = this->head;
+    this->head = this->head->next;
+    length--;
+    return cursor->data;
+}
+
+void Deck::replace(card& card)
+{
+    Node* cursor;
+    Node* temp;
+    temp->next = NULL;
+    temp->data = card;
+    cursor = this->head;
+    int i = 1;
+    while(cursor->next != NULL)
+    {
+        cursor = cursor->next;
+    }
+    cursor->next = temp;
+    length++;
+    return;
+}
 
 
 
 
-// Card Functions
+//---------Card Functions---------//
+
+card::card(card& card)
+{
+    suit = card.getSuit();
+    value = card.getValue();
+}
+
 void card::setValue(string sValue) 
 {
     value = sValue;
@@ -111,41 +155,6 @@ void card::setSuit(string sSuit)
     suit = sSuit;
 }
 
-string card::getSuit() 
-{
-    return suit;
-}
-
-string card::getValue() 
-{
-    return value;
-}
-
-card* Deck::deal()
-{
-    node* cursor;
-    cursor = head;
-    head = head->next;
-    length--;
-    return cursor;
-}
-
-void Deck::replace(card& card)
-{
-    node* cursor;
-    node temp;
-    temp->next = NULL;
-    temp->data = card;
-    cursor = head;
-    int i = 1;
-    while(cursor->next != NULL)
-    {
-        cursor = cursor->next;
-    }
-    cursor->next = &temp;
-    length++;
-    return;
-}
 
 
 /*ostream& operator<<(ostream& os,card& card) {
@@ -157,3 +166,28 @@ void Deck::replace(card& card)
     }
     return os;
 }*/
+
+
+//----------Hand Fucntions----------//
+
+Hand::Hand()
+{
+    this->head = NULL;
+    length = 0;
+}
+
+Hand::~Hand()
+{
+    Node* cursor;
+    Node* prev;
+    cursor = this->head->next;
+    prev = this->head;
+    while(prev != NULL)
+    {
+        delete prev->next;
+        prev = cursor;
+        cursor = cursor->next;
+    }
+    cout << endl << "Deleted Hand" << endl;
+
+}
