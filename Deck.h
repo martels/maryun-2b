@@ -17,7 +17,8 @@ class card
     
 public:
     card(string sValue, string sSuit) {value = sValue; suit = sSuit;};              //class constructor
-    card(card& card);                                                               //copy constructor
+    card(card& card);
+    card(){value="0"; suit="0";};        //copy constructor
     void setValue(string sValue);                                                   //sets value to the passed value
     void setSuit(string sSuit);                                                     //sets suit to passed suit
     inline string getSuit() const {return suit;};                                                               //returns suit
@@ -30,37 +31,31 @@ private:
 
 class Node 
 {
-     public:
-        Node() {};
-        Node* next;                                                                //pointer to the next value in the list
-        card* data;     
+public:
+    Node() {};
+    Node* next;                                                                //pointer to the next value in the list
+    card* data;     
 };
  
 
 class Deck 
 {
-    public:
-        Node* head;                                                                 //head of the list
-        int length;                                                                 //length of the list
-        Deck();                                                                     //class constructor
-        ~Deck();                                                                    //class deconstrutor
-        void addCard(card& card);                                                   //adds the passed card address
-        void shuffle();                                                             //shuffles the cards
-        void print();                                                               //prints out the deck
-        card* deal();                                                               //deals a card, removing from the deck    
-        void replace(card& card);                                                   //puts card on the bottom of the deck
-};
-
-
-class Hand
-{
 public:
-    Node* head;
-    int length;
-    Hand();
-    ~Hand();
-    find(int select);
+    Node* head;                                                                 //head of the list
+    int length;                                                                 //length of the list
+    Deck();                                                                     //class constructor
+    ~Deck();
+    Deck(int place);                                                                   //class deconstrutor
+    void addCard(card& card);                                                   //adds the passed card address
+    void shuffle();                                                             //shuffles the cards
+    void print();
+    int points();
+    card flip();                                                                //prints out the deck
+    card* deal();                                                               //deals a card, removing from the deck
+    void replace(card *card);                                                   //puts card on the bottom of the deck
 };
+
+
 
 
 #endif
