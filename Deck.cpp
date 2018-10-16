@@ -75,7 +75,7 @@ void Deck::shuffle()
         cursor = cursor->next;
     }
 
-    for(int i = 0; i < 1000; i++)
+    for(int i = 0; i < 104; i++)
     {
         rnd1 = rand() % 52;   //generate two random numbers
         rnd2 = rand() % 52;   
@@ -122,7 +122,7 @@ void Deck::replace(card& card)
     Node* cursor;
     Node* temp;
     temp->next = NULL;
-    temp->data = card;
+    temp->data = &card;
     cursor = this->head;
     int i = 1;
     while(cursor->next != NULL)
@@ -133,8 +133,6 @@ void Deck::replace(card& card)
     length++;
     return;
 }
-
-
 
 
 //---------Card Functions---------//
@@ -167,27 +165,48 @@ void card::setSuit(string sSuit)
     return os;
 }*/
 
-
-//----------Hand Fucntions----------//
-
-Hand::Hand()
+int points(const card& card, int& points)
 {
-    this->head = NULL;
-    length = 0;
-}
 
-Hand::~Hand()
-{
-    Node* cursor;
-    Node* prev;
-    cursor = this->head->next;
-    prev = this->head;
-    while(prev != NULL)
+    if(card.getValue() == 'A')
     {
-        delete prev->next;
-        prev = cursor;
-        cursor = cursor->next;
+        points = points + 10;
     }
-    cout << endl << "Deleted Hand" << endl;
+    else if(card.getValue == 'K' || card.getValue == 'Q' || card.getValue == 'J')
+    {
+        points = points + 5;
+    }
+    else if(card.getValue() == '7')
+    {
+        points = points/2;
+    }
+    else if(card.getValue == '2' || card.getValue == '3' || card.getValue == '4' || card.getValue == '5' || card.getValue == '6')
+    {
+        points = 0;
+    }
+    if(card.getSuit() == 'Hearts')
+    {
+        points++;
+    }
+    return points;
+}
+
+void playflip()
+{
+    Deck deck;
+    int i = 0;
+    int tally = 0;
+
+    card temp;
+
+    temp = deck.flip();
+    points(temp, tally);
+
+    while(i != 3)
+    {
+        deck.shuffle;
+        i++;
+    }
 
 }
+

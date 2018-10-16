@@ -47,19 +47,9 @@ class Deck
         void addCard(card& card);                                                   //adds the passed card address
         void shuffle();                                                             //shuffles the cards
         void print();                                                               //prints out the deck
+        void flip(int x);
         card* deal();                                                               //deals a card, removing from the deck    
         void replace(card& card);                                                   //puts card on the bottom of the deck
-};
-
-
-class Hand
-{
-public:
-    Node* head;
-    int length;
-    Hand();
-    ~Hand();
-    find(int select);
 };
 
 

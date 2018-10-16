@@ -12,6 +12,7 @@ int main()
 	cout << endl << endl << "Shuffling Deck...." << endl << endl;
     deck.shuffle();
     deck.print();
+
     
 	return 0;
 }
