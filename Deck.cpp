@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 #include <stdlib.h>
+#include <math.h>
+#include <cmath>
 
 
 using namespace std;
@@ -28,6 +30,7 @@ Deck::Deck()
        for (int j = 0; j < 13; j++) //13 values
        {
            card* Card = new card(values[j], suits[i]);
+           //card temp(values[j], suits[i]);
            addCard(*Card);
        }
     }
@@ -62,9 +65,18 @@ void Deck::addCard(card& card)
 {
     Node* node = new Node();
     node->data = &card;
+    if(head == NULL)
+    {
+        this->head = node;
+        node->next = NULL;
+    }
+    else
+    {
+ //   node->data = &card;
     node->next = this->head;
     this->head = node;
-};
+    }
+}
 
 //Shuffles Deck
 void Deck::shuffle()
@@ -104,35 +116,35 @@ void Deck::shuffle()
 }
 
 
-void Deck::print() 
+void Deck::print()
 {
-     Node* head = this->head;
+     Node* cursor = this->head;
      int i = 1;
-     while (head) {
-         card* card = head->data;
+     while (cursor) {
+         card* card = cursor->data;
          cout << "Card " << i << ": " << (*card).getValue() << " of " << (*card).getSuit() << endl;
-         head = head->next;
+         cursor = cursor->next;
          i++;
      }
  }
+
 card Deck::flip()
 {
     card* temp;
+    temp = new card;
     int x;
     cout << "Which number card do you want to flip: \n";
     cin >> x;
-    Node* head = this->head;
+    
+    Node* cursor = this->head;
     int i = 1;
-    card* p;
-    //int size = sizeof(prev) / sizeof(card);
-    while (head) {
-        card* card = head->data;
+    while (cursor) {
+        card* card = cursor->data;
         if (i == x){
-          //  p = find(prev, size, (*card).getValue())
-           // temp = card;
+            temp=card;
             cout << "Card " << i << ": " << (*card).getValue() << " of " << (*card).getSuit() << endl;
         }
-        head = head->next;
+        cursor = cursor->next;
         i++;
     }
     return (*temp);
@@ -150,13 +162,22 @@ void Deck::replace(card *card)
 {
     Node* cursor;
     Node* temp;
+    temp = new Node;
     temp->next = NULL;
     temp->data = card;
-    cursor = this->head;
-    int i = 1;
-    while(cursor->next != NULL)
+    
+    if(head == NULL)
     {
+        this->head = temp;
+        temp->next = NULL;
+    }
+    
+    else{
+        cursor = this->head;
+        while(cursor->next != NULL)
+        {
         cursor = cursor->next;
+        }
     }
     cursor->next = temp;
     length++;

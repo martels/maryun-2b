@@ -21,8 +21,8 @@ public:
     card(){value="0"; suit="0";};        //copy constructor
     void setValue(string sValue);                                                   //sets value to the passed value
     void setSuit(string sSuit);                                                     //sets suit to passed suit
-    inline string getSuit() const {return suit;};                                                               //returns suit
-    inline string getValue() const {return value;};                                                              //returns value
+    string getSuit() const {return suit;};                                                               //returns suit
+    string getValue() const {return value;};                                                              //returns value
     void operator= (const card &rhs){setValue(rhs.getValue()); setSuit(rhs.getSuit()); return;}                                                   
 private:
     string value;  
