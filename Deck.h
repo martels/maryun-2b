@@ -1,6 +1,5 @@
 //Barry Yung
 //Samual Martel
-//9 OCT 2018
 //Algos Project2a
 #ifndef Deck_h
 #define Deck_h
@@ -11,23 +10,27 @@
 
 using namespace std;
 
+//---------------------------------------------------------------------------------------------------------------//
 
 class card
 {
     
 public:
     card(string sValue, string sSuit) {value = sValue; suit = sSuit;};              //class constructor
-    card(card& card);
-    card(){value="0"; suit="0";};        //copy constructor
+    card(card& card);                                                               //copy constructor
+    card(){value="0"; suit="0";};                                                   //Constructor
     void setValue(string sValue);                                                   //sets value to the passed value
     void setSuit(string sSuit);                                                     //sets suit to passed suit
     string getSuit() const {return suit;};                                                               //returns suit
     string getValue() const {return value;};                                                              //returns value
-    void operator= (const card &rhs){setValue(rhs.getValue()); setSuit(rhs.getSuit()); return;}                                                   
+    void operator= (const card &rhs){setValue(rhs.getValue()); setSuit(rhs.getSuit()); return;}                //asignment opertator overload                                   
 private:
     string value;  
     string suit;
 };
+
+//---------------------------------------------------------------------------------------------------------------//
+
 
 class Node 
 {
@@ -37,6 +40,7 @@ public:
     card* data;     
 };
  
+//--------------------------------------------------------------------------------------------------------------//
 
 class Deck 
 {
@@ -55,7 +59,7 @@ public:
     void replace(card *card);                                                   //puts card on the bottom of the deck
 };
 
-
+//---------------------------------------------------------------------------------------------------------------//
 
 
 #endif

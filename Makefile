@@ -8,4 +8,4 @@ main.o: main.cpp
 	g++ -Wall -c main.cpp
 
 clean:
-	rm main.o deck.o flipcard
+	rm main.o Deck.o flipcard

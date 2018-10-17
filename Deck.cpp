@@ -14,10 +14,89 @@
 
 using namespace std;
 
+//--------Global-------------//
+
+// Returns the number points that the player has after they selected the passed card
+int points(const card& card, int& points)
+{
+    double temp = 0;
+    if(card.getValue() == "A")
+        points = points + 10;
+
+    else if(card.getValue() == "K" || card.getValue() == "Q" || card.getValue() == "J")
+        points = points + 5;
+
+    else if(card.getValue() == "7")
+    {
+        // type casting temp from points so that ceil will function properly
+        temp = double (points);
+        temp = temp/2;
+        points = ceil(temp);
+    }
+    else if(card.getValue() == "2" || card.getValue() == "3" || card.getValue() == "4" || card.getValue() == "5" || card.getValue() == "6")
+        points = 0;
+
+    if(card.getSuit() == "Hearts")
+        points++;
+    
+    return points;
+}
+
+void playflip()
+{
+    //declare the deck and the hand
+    Deck deck;
+    Deck Hand(0);
+    //initialise the selection to end game
+    char sel = 'y';
+    //points start from 0
+    int tally = 0;
+    //temporary card
+    card temp;
+
+    // deck.print();
+    // cout << endl << endl;
+    
+    //shuffles the deck 3 times
+    for(int i = 0; i < 3; i++)
+    {
+        deck.shuffle();
+        i++;
+    }
+
+    // deck.print();
+    // cout << "\n\n";
+    
+    //deals 24 cards into the hand
+    for (int i = 0; i<24; i++)
+    {
+        Hand.addCard(*(deck.deal()));
+    }
+
+    // Hand.print();
+    // cout << "\n\n";
+    
+    //while the player still wants to continue
+    while (sel != 'n')
+    {
+        temp = Hand.flip();
+        tally = points(temp, tally);
+        
+        cout << "You have " << tally << " points.\n";
+        cout << "Would you like to flip again ('y' for yes, else for no)? ";
+        cin >> sel;
+    }
+    
+    cout << endl << endl << endl << "Thank you for playing. Your score is " << tally << endl << endl;
+    return;
+    
+}
+
+
+
+
+
 //------Deck Functions-------//
-
-
-
 //Deck constructor
 Deck::Deck()
 {
@@ -35,7 +114,7 @@ Deck::Deck()
        }
     }
 }
-
+//Alternate Constructor
 Deck::Deck(int place)
 {
     head = NULL;
@@ -115,7 +194,7 @@ void Deck::shuffle()
     
 }
 
-
+//Prints the whole deck
 void Deck::print()
 {
      Node* cursor = this->head;
@@ -128,6 +207,7 @@ void Deck::print()
      }
  }
 
+//returns the card at location x as well as displaying on the screen
 card Deck::flip()
 {
     card* temp;
@@ -138,6 +218,7 @@ card Deck::flip()
     
     Node* cursor = this->head;
     int i = 1;
+    //iterate through the list, when the card number equals x output the card and set temp equal to the card
     while (cursor) {
         card* card = cursor->data;
         if (i == x){
@@ -147,8 +228,11 @@ card Deck::flip()
         cursor = cursor->next;
         i++;
     }
+    //return temp
     return (*temp);
 }
+
+//Deals one card off the top of the deck
 card* Deck::deal()
 {
     Node* cursor;
@@ -158,6 +242,7 @@ card* Deck::deal()
     return cursor->data;
 }
 
+//Adds one card back into the deck at the bottom
 void Deck::replace(card *card)
 {
     Node* cursor;
@@ -165,7 +250,7 @@ void Deck::replace(card *card)
     temp = new Node;
     temp->next = NULL;
     temp->data = card;
-    
+    //incase the deck is empty
     if(head == NULL)
     {
         this->head = temp;
@@ -183,79 +268,31 @@ void Deck::replace(card *card)
     length++;
     return;
 }
-/*int points(const card& card, int& points)
-{
-    
-    if(card.getValue() == "A")
-    {
-        points = points + 10;
-    }
-    else if(card.getValue() == "K" || card.getValue() == "Q" || card.getValue() == "J")
-    {
-        points = points + 5;
-    }
-    else if(card.getValue() == "7")
-    {
-        points = points/2;
-    }
-    else if(card.getValue() == "2" || card.getValue() == "3" || card.getValue() == "4" || card.getValue() == "5" || card.getValue() == "6")
-    {
-        points = 0;
-    }
-    if(card.getSuit() == "Hearts")
-    {
-        points++;
-    }
-    return points;
-}*/
 
-/*void playflip()
-{
-    Deck deck;
-    Deck Hand(0);
-    int i = 0;
-    char sel = 'y';
-    int tally = 0;
-    card temp;
-    
-    while(i != 3)
-    {
-        deck.shuffle();
-        i++;
-    }
-    
-    for (int i = 0; i<24; i++)
-    {
-        Hand.replace(deck.deal());
-    }
-    
-    while (sel != 'n')
-    {
-        //temp = deck.flip(attempts);
-        //attempts.push_front(temp);
-        points(temp, tally);
-        
-        cout << "You have " << tally << " points.\n";
-        cout << "Would you like to play again?";
-        cin >> sel;
-    }
-    
-    cout << " \n\n\n Thank you for playing. Your score is " << tally;
-    return;
-    
-}
-*/
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 //---------Card Functions---------//
-
+//copy constructor
 card::card(card& card)
 {
     suit = card.getSuit();
     value = card.getValue();
 }
 
+
+//set functions
 void card::setValue(string sValue) 
 {
     value = sValue;
@@ -277,8 +314,4 @@ void card::setSuit(string sSuit)
     }
     return os;
 }*/
-
-
-//----------Hand Fucntions----------//
-
 
